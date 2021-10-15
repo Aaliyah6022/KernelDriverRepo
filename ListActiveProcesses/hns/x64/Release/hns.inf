@@ -1,0 +1,80 @@
+;
+; hns.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=System ; TODO: specify appropriate Class
+ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318} ; TODO: specify appropriate ClassGuid
+Provider=%ManufacturerName%
+CatalogFile=hns.cat
+DriverVer = 10/15/2021,21.34.8.522
+PnpLockdown=1
+
+[DestinationDirs]
+DefaultDestDir = 12
+hns_Device_CoInstaller_CopyFiles = 11
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+hns.sys  = 1,,
+;
+
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NTamd64
+
+[Standard.NTamd64]
+%hns.DeviceDesc%=hns_Device, Root\hns ; TODO: edit hw-id
+
+[hns_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+hns.sys
+
+;-------------- Service installation
+[hns_Device.NT.Services]
+AddService = hns,%SPSVCINST_ASSOCSERVICE%, hns_Service_Inst
+
+; -------------- hns driver install sections
+[hns_Service_Inst]
+DisplayName    = %hns.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\hns.sys
+
+;
+;--- hns_Device Coinstaller installation ------
+;
+
+[hns_Device.NT.CoInstallers]
+AddReg=hns_Device_CoInstaller_AddReg
+CopyFiles=hns_Device_CoInstaller_CopyFiles
+
+[hns_Device_CoInstaller_AddReg]
+;
+
+
+[hns_Device_CoInstaller_CopyFiles]
+;
+
+
+[hns_Device.NT.Wdf]
+KmdfService =  hns, hns_wdfsect
+[hns_wdfsect]
+KmdfLibraryVersion = 1.15
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+DiskName = "hns Installation Disk"
+hns.DeviceDesc = "hns Device"
+hns.SVCDESC = "hns Service"

@@ -1,0 +1,6 @@
+﻿  Building 'hns' with toolset 'WindowsKernelModeDriver10.0' and the 'Universal' target platform.
+  Stamping x64\Release\hns.inf
+  Stamping [Version] section with DriverVer=10/15/2021,21.34.8.522
+  Driver.cpp
+Driver.obj : error LNK2019: unresolved external symbol "long __cdecl ZwQuerySystemInformation(unsigned long,void *,unsigned long,unsigned long *)" (?ZwQuerySystemInformation@@YAJKPEAXKPEAK@Z) referenced in function "long __cdecl CustomDriverEntry(struct _DRIVER_OBJECT *,struct _UNICODE_STRING *)" (?CustomDriverEntry@@YAJPEAU_DRIVER_OBJECT@@PEAU_UNICODE_STRING@@@Z)
+C:\Users\petre\Desktop\hns\x64\Release\hns.sys : fatal error LNK1120: 1 unresolved externals
